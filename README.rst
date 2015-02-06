@@ -3,7 +3,7 @@ openS3
 
 |docs| |tests|
 
-A Pythonic way to upload and download from AWS S3.
+An openS3 wrapper for use with Django.
 
 
 Installation
@@ -11,7 +11,7 @@ Installation
 
 ::
 
-   $ pip install openS3
+   $ pip install django_openS3
 
 To install the latest development version::
 
