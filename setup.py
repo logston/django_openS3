@@ -62,5 +62,9 @@ setup(name='django_openS3',
       packages=['django_openS3'],
       include_package_data=True,
       package_data={'': ['LICENSE', 'README.rst']},
+      install_requires=[
+          'Django>=1.6',
+          'openS3>=0.1.6'
+      ],
       tests_require=['tox'],
       cmdclass={'test': Tox})

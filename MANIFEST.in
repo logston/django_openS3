@@ -1,12 +1,10 @@
-include HISTORY.rst
+include CHANGELOG.rst
 include LICENSE
 include Makefile
 include MANIFEST.in
 include README.rst
-include setup.cfg
 include tox.ini
 recursive-include docs *
-recursive-include tests *
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]
 recursive-exclude * .tox

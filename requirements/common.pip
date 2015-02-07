@@ -1,2 +1,2 @@
 Django>=1.7
-openS3>=0.1.5
+openS3>=0.1.6

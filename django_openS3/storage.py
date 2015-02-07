@@ -4,7 +4,7 @@ A custom Storage interface for storing files to S3 via OpenS3
 from django.conf import settings
 from django.core.files.base import ContentFile
 from django.core.files.storage import Storage
-from openS3.utils import validate_values
+import openS3
 
 
 class S3Storage(Storage):
@@ -15,27 +15,23 @@ class S3Storage(Storage):
     """
     def __init__(self, name_prefix, bucket, aws_access_key, aws_secret_key):
         self.name_prefix = name_prefix
-        config_values = {'bucket': bucket,
-                         'aws_access_key': aws_access_key,
-                         'aws_secret_key': aws_secret_key}
-        validate_values(validation_func=lambda value: value is not None, dic=config_values)
-        self.bucket = bucket
-        self.access_key = aws_access_key
-        self.secret_key = aws_secret_key
-        self.netloc = '{}.s3.amazonaws.com'.format(bucket)
+        self.opener = openS3.OpenS3(bucket, aws_access_key, aws_secret_key)
 
     def _open(self, name, mode='rb'):
         """
         Retrieves the specified file from storage.
         """
-        content =
+        with self.opener(name, mode) as fd:
+            content = fd.read()
         return ContentFile(content, name)
 
     def _save(self, name, content):
         name = self.get_valid_name(name)
         name = self._prepend_name_prefix(name)
 
-        return 'actual_file_name'
+        with self.opener(name, 'wb') as fd:
+            fd.write(content)
+        return name
 
     def _prepend_name_prefix(self, name):
         """Return file name (ie. path) with the prefix directory prepended"""
