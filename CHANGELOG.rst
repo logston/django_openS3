@@ -4,4 +4,6 @@ Changelog
 0.1.0
 -----
 
-- First commit. Copy project structure from openS3.
+- Create a django storage that wraps openS3_.
+
+ .. _openS3: https://github.com/logston/openS3

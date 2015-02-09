@@ -1,5 +1,5 @@
-openS3
-======
+django_openS3
+=============
 
 |docs| |tests|
 
@@ -15,8 +15,8 @@ Installation
 
 To install the latest development version::
 
-    $ git clone git@github.com:logston/openS3.git
-    $ cd openS3
+    $ git clone git@github.com:logston/django_openS3.git
+    $ cd django_openS3
     $ python setup.py install
 
 
@@ -25,18 +25,26 @@ Usage
 
 ::
 
-    >>> from openS3 import OpenS3
-    >>>
-    >>> openS3 = OpenS3('my_bucket', '<access_key>', '<secret_key>')
-    ... with openS3('/my/object/key.txt', mode='wb') as fd:
-    ...     fd.write('Yeah! Files going up to S3!')
-    >>>
-    >>> # Let's create a new OpenS3 object so we know we are not
-    >>> # just printing saved state attached to the previous OpenS3 object.
-    >>> openS3 = OpenS3('my_bucket', '<access_key>', '<secret_key>')
-    ... with openS3('/my/object/key.txt') as fd:
-    ...     print(fd.read())
-    b'Yeah! Files going up to S3!'
+    # Add django_openS3 to your project's list of installed apps.
+    INSTALLED_APPS = [
+        ...
+        'django_openS3',
+        ...
+    ]
+
+    # Set your desired bucket and authentication/authorization info.
+    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_S3_BUCKET']
+    AWS_ACCESS_KEY_ID = os.environ['AWS_S3_ACCESS_KEY']
+    AWS_SECRET_ACCESS_KEY = os.environ['AWS_S3_SECRET_KEY']
+
+    # Tell django to use django_openS3 for storing static files and media.
+    DEFAULT_FILE_STORAGE = 'django_openS3.storage.S3MediaStorage'
+    STATICFILES_STORAGE = 'django_openS3.storage.S3StaticStorage'
+
+    # Optionally set the directories in which static and media
+    # files will be saved to. Defaults are listed below.
+    S3_STATIC_DIR = '/static/'
+    S3_MEDIA_DIR = '/media/'
 
 Bug Tracker
 ===========
